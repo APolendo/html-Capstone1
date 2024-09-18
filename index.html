@@ -1,49 +1,124 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Resume</title>
+    <title>Cambiar nombres e imágenes</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .name-list {
+            display: flex;
+            gap: 10px;
+        }
+
+        .name-list div {
+            text-align: center;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+        }
+
+        #center-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Adolfo Polendo</h1>
-    <hr>
-        <img src="./Resources/PPP.jpg" alt="Profile picture" height="200">
-    <h2>Summary</h2>
-        <ul>
-            <li>I'm an Accountant student willing to learn everything I can in my free time, a bit obsessed now witg web development.</li>
-        </ul>
-    <h2>Education</h2>
-        <ul>
-            <li><h3>System engineering</h3></li>
-            <ul>2016 - 2019 (Not concluded)</ul>
-            <li><h3>Accounting</h3></li>
-            <ul>2019 - Ongoing</ul>
-        </ul>
-    <h2>Work Experience</h2>
-        <ul>
-            <li><h3>Sales/Customer service (Workshop)</h3></li>
-            <ul>2015 - 2018</ul>
-            <li><h3>Customer Service (Call center)</h3></li>
-            <ul>2019 - 2020</ul>
-            <li><h3>Workforce Management (Call center)</h3></li>
-            <ul>2020 - 2022</ul>
-            <li><h3>Workforce Management (Call center)</h3></li>
-            <ul>2022 - Ongoing</ul>
-        </ul>
-    <h2>Skills</h2>
-        <ul>
-            <li>MS Office - Advanced</li>
-            <li>Efective comunication</li>
-            <li>Yellow Belt - Six Sigma</li>
-            <li>Advanced computer skills</li>
-            <li>Fast learner</li>
-        </ul>
-    <h2>Extras</h2>
-        <ul>
-            <a href="./Hobbies.html"><h3>Hobbies</h3></a>
-            <a href="./Hobbies.html"><h3>About</h3></a>
-            <a href="./index2.html"><h3>Alertas</h3></a>
-        </ul>
+
+<div class="container">
+    <div class="name-list" id="nameList">
+        <div>
+            <img src="https://via.placeholder.com/100" alt="Imagen 1">
+            <p>Nombre 1</p>
+        </div>
+        <div>
+            <img src="https://via.placeholder.com/100" alt="Imagen 2">
+            <p>Nombre 2</p>
+        </div>
+        <div>
+            <img src="https://via.placeholder.com/100" alt="Imagen 3">
+            <p>Nombre 3</p>
+        </div>
+        <div>
+            <img src="https://via.placeholder.com/100" alt="Imagen 4">
+            <p>Nombre 4</p>
+        </div>
+        <div>
+            <img src="https://via.placeholder.com/100" alt="Imagen 5">
+            <p>Nombre 5</p>
+        </div>
+    </div>
+
+    <button onclick="shuffleNames()">Cambiar Orden</button>
+    <button onclick="changeCenterName()">Cambiar Centro</button>
+
+    <div id="center-name">Nombre 1</div>
+</div>
+
+<script>
+    let names = [
+        {name: "Nombre 1", image: "https://via.placeholder.com/100"},
+        {name: "Nombre 2", image: "https://via.placeholder.com/100"},
+        {name: "Nombre 3", image: "https://via.placeholder.com/100"},
+        {name: "Nombre 4", image: "https://via.placeholder.com/100"},
+        {name: "Nombre 5", image: "https://via.placeholder.com/100"}
+    ];
+
+    let currentIndex = 0;
+
+    function shuffleNames() {
+        // Mezclar el arreglo de nombres
+        names.sort(() => Math.random() - 0.5);
+        renderNames();
+    }
+
+    function changeCenterName() {
+        // Cambiar el nombre central por el siguiente en la lista
+        currentIndex = (currentIndex + 1) % names.length;
+        document.getElementById("center-name").textContent = names[currentIndex].name;
+    }
+
+    function renderNames() {
+        const nameList = document.getElementById("nameList");
+        nameList.innerHTML = "";
+
+        names.forEach(item => {
+            const div = document.createElement("div");
+            const img = document.createElement("img");
+            img.src = item.image;
+            img.alt = item.name;
+
+            const p = document.createElement("p");
+            p.textContent = item.name;
+
+            div.appendChild(img);
+            div.appendChild(p);
+            nameList.appendChild(div);
+        });
+    }
+
+    // Inicializar la lista de nombres al cargar la página
+    renderNames();
+</script>
+
 </body>
 </html>
