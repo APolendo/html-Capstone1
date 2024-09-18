@@ -86,59 +86,31 @@
 </div>
 
 <script>
-    let names = [
-        {name: "Fallguys", image: "./Resources/Fallguys.png"},
-        {name: "Warzone", image: "./Resources/Warzone.png"},
-        {name: "Rocket League", image: "./Resources/rl.png"},
-        {name: "Counter Strike", image: "./Resources/CounterStrike.png"},
-        {name: "Valorant", image: "./Resources/valo.png"}
-    ];
-
     let currentIndex = 0;
 
     function moveHighlight() {
         const nameList = document.querySelectorAll(".name-list div");
-        
-        // Quitar el contorno de todos los divs
+
+        // Quitar el contorno de todos los divs y poner todas las imágenes en blanco y negro
         nameList.forEach((div, index) => {
             div.classList.remove("highlight");
             div.querySelector("img").classList.remove("color");
-            
-            // Todas las imágenes antes de la actual se colorean
-            if (index <= currentIndex) {
-                div.querySelector("img").classList.add("color");
-            }
+            div.querySelector("img").style.filter = "grayscale(100%)";
         });
 
         // Mover el contorno al siguiente nombre
         currentIndex = (currentIndex + 1) % nameList.length;
-        nameList[currentIndex].classList.add("highlight");
-    }
 
-    function renderNames() {
-        const nameList = document.getElementById("nameList");
-        nameList.innerHTML = "";
-
-        names.forEach(item => {
-            const div = document.createElement("div");
-            const img = document.createElement("img");
-            img.src = item.image;
-            img.alt = item.name;
-
-            const p = document.createElement("p");
-            p.textContent = item.name;
-
-            div.appendChild(img);
-            div.appendChild(p);
-            nameList.appendChild(div);
+        // Colorear las imágenes a la izquierda (incluyendo la actual)
+        nameList.forEach((div, index) => {
+            if (index <= currentIndex) {
+                div.querySelector("img").style.filter = "none"; // Volver a color
+            }
         });
 
-        // Colorear la primera imagen al iniciar
-        document.querySelectorAll(".name-list div img")[0].classList.add("color");
+        // Añadir el contorno rojo a la imagen actual
+        nameList[currentIndex].classList.add("highlight");
     }
-
-    // Inicializar la lista de nombres al cargar la página
-    renderNames();
 </script>
 
 </body>
