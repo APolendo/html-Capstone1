@@ -81,6 +81,7 @@
     </div>
 
     <button onclick="moveHighlight()">Mover Contorno</button>
+    <button onclick="shuffleImages()">Reordenar Imágenes</button>
 
     <div id="center-name">Fallguys</div>
 </div>
@@ -88,6 +89,7 @@
 <script>
     let currentIndex = 0;
 
+    // Función para mover el contorno y colorear imágenes
     function moveHighlight() {
         const nameList = document.querySelectorAll(".name-list div");
 
@@ -110,6 +112,41 @@
 
         // Añadir el contorno rojo a la imagen actual
         nameList[currentIndex].classList.add("highlight");
+    }
+
+    // Función para mezclar las imágenes y nombres aleatoriamente
+    function shuffleImages() {
+        let nameList = document.querySelector(".name-list");
+        let divs = Array.from(nameList.children);
+
+        // Mezclar los divs de manera aleatoria
+        for (let i = divs.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [divs[i], divs[j]] = [divs[j], divs[i]];
+        }
+
+        // Limpiar el contenedor y volver a agregar los divs en el nuevo orden
+        nameList.innerHTML = "";
+        divs.forEach(div => nameList.appendChild(div));
+
+        // Reiniciar el contorno y color, aplicándolo a la primera imagen
+        resetHighlight();
+    }
+
+    // Función para reiniciar el contorno a la primera imagen
+    function resetHighlight() {
+        const nameList = document.querySelectorAll(".name-list div");
+
+        // Quitar el contorno de todas las imágenes y dejarlas en blanco y negro
+        nameList.forEach(div => {
+            div.classList.remove("highlight");
+            div.querySelector("img").style.filter = "grayscale(100%)";
+        });
+
+        // Resaltar la primera imagen y colorearla
+        currentIndex = 0;
+        nameList[currentIndex].classList.add("highlight");
+        nameList[currentIndex].querySelector("img").style.filter = "none"; // Volver a color
     }
 </script>
 
