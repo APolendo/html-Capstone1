@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambiar nombres e imágenes</title>
+    <title>Imágenes en Blanco y Negro</title>
     <style>
         body {
             display: flex;
@@ -28,11 +28,23 @@
 
         .name-list div {
             text-align: center;
+            position: relative;
+            padding: 5px;
         }
 
-        img {
+        .name-list div img {
             width: 100px;
             height: 100px;
+            filter: grayscale(100%);
+            transition: filter 0.3s ease;
+        }
+
+        .highlight {
+            border: 3px solid red;
+        }
+
+        .color {
+            filter: none;
         }
 
         #center-name {
@@ -46,30 +58,29 @@
 
 <div class="container">
     <div class="name-list" id="nameList">
-        <div>
-            <img src="https://via.placeholder.com/100" alt="Imagen 1">
+        <div class="highlight">
+            <img src="./Resources/Fallguys.png" alt="Imagen 1">
             <p>Nombre 1</p>
         </div>
         <div>
-            <img src="https://via.placeholder.com/100" alt="Imagen 2">
+            <img src="./Resources/Warzone.png" alt="Imagen 2">
             <p>Nombre 2</p>
         </div>
         <div>
-            <img src="https://via.placeholder.com/100" alt="Imagen 3">
+            <img src="./Resources/rl.png" alt="Imagen 3">
             <p>Nombre 3</p>
         </div>
         <div>
-            <img src="https://via.placeholder.com/100" alt="Imagen 4">
+            <img src="./Resources/CounterStrike.png" alt="Imagen 4">
             <p>Nombre 4</p>
         </div>
         <div>
-            <img src="https://via.placeholder.com/100" alt="Imagen 5">
+            <img src="./Resources/valo.png" alt="Imagen 5">
             <p>Nombre 5</p>
         </div>
     </div>
 
-    <button onclick="shuffleNames()">Cambiar Orden</button>
-    <button onclick="changeCenterName()">Cambiar Centro</button>
+    <button onclick="moveHighlight()">Mover Contorno</button>
 
     <div id="center-name">Nombre 1</div>
 </div>
@@ -85,16 +96,23 @@
 
     let currentIndex = 0;
 
-    function shuffleNames() {
-        // Mezclar el arreglo de nombres
-        names.sort(() => Math.random() - 0.5);
-        renderNames();
-    }
+    function moveHighlight() {
+        const nameList = document.querySelectorAll(".name-list div");
+        
+        // Quitar el contorno de todos los divs
+        nameList.forEach((div, index) => {
+            div.classList.remove("highlight");
+            div.querySelector("img").classList.remove("color");
+            
+            // Todas las imágenes antes de la actual se colorean
+            if (index <= currentIndex) {
+                div.querySelector("img").classList.add("color");
+            }
+        });
 
-    function changeCenterName() {
-        // Cambiar el nombre central por el siguiente en la lista
-        currentIndex = (currentIndex + 1) % names.length;
-        document.getElementById("center-name").textContent = names[currentIndex].name;
+        // Mover el contorno al siguiente nombre
+        currentIndex = (currentIndex + 1) % nameList.length;
+        nameList[currentIndex].classList.add("highlight");
     }
 
     function renderNames() {
@@ -114,6 +132,9 @@
             div.appendChild(p);
             nameList.appendChild(div);
         });
+
+        // Colorear la primera imagen al iniciar
+        document.querySelectorAll(".name-list div img")[0].classList.add("color");
     }
 
     // Inicializar la lista de nombres al cargar la página
