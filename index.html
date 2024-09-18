@@ -160,13 +160,17 @@
     let draggedItem = null;
 
     nameList.addEventListener("dragstart", (e) => {
-        draggedItem = e.target;
-        e.target.classList.add("dragging");
+        if (e.target.closest("div")) {
+            draggedItem = e.target.closest("div");
+            e.target.closest("div").classList.add("dragging");
+        }
     });
 
     nameList.addEventListener("dragend", (e) => {
-        e.target.classList.remove("dragging");
-        draggedItem = null;
+        if (draggedItem) {
+            draggedItem.classList.remove("dragging");
+            draggedItem = null;
+        }
     });
 
     nameList.addEventListener("dragover", (e) => {
