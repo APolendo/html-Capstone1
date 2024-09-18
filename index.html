@@ -30,6 +30,7 @@
             text-align: center;
             position: relative;
             padding: 5px;
+            cursor: grab;
         }
 
         .name-list div img {
@@ -52,37 +53,43 @@
             font-weight: bold;
             margin-top: 20px;
         }
+
+        .name-list div.dragging {
+            opacity: 0.5;
+        }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="name-list" id="nameList">
-        <div class="highlight">
+        <div class="highlight" draggable="true">
             <img src="./Resources/Fallguys.png" alt="Imagen 1">
             <p>Fallguys</p>
         </div>
-        <div>
+        <div draggable="true">
             <img src="./Resources/Warzone.png" alt="Imagen 2">
             <p>Warzone</p>
         </div>
-        <div>
+        <div draggable="true">
             <img src="./Resources/rl.png" alt="Imagen 3">
             <p>Rocket League</p>
         </div>
-        <div>
+        <div draggable="true">
             <img src="./Resources/CounterStrike.png" alt="Imagen 4">
             <p>Counter Strike</p>
         </div>
-        <div>
+        <div draggable="true">
             <img src="./Resources/valo.png" alt="Imagen 5">
             <p>Valorant</p>
         </div>
     </div>
 
     <button onclick="moveHighlight()">Mover Contorno</button>
-    <button onclick="shuffleImages()">Reordenar Imágenes</button>
-    
+    <button onclick="shuffleImages()">Reordenar Automáticamente</button>
+    <button onclick="resetHighlight()">Reiniciar al Primer Orden</button>
+
+    <div id="center-name">Fallguys</div>
 </div>
 
 <script>
@@ -146,6 +153,46 @@
         currentIndex = 0;
         nameList[currentIndex].classList.add("highlight");
         nameList[currentIndex].querySelector("img").style.filter = "none"; // Volver a color
+    }
+
+    // Implementación de reordenamiento manual
+    const nameList = document.getElementById("nameList");
+    let draggedItem = null;
+
+    nameList.addEventListener("dragstart", (e) => {
+        draggedItem = e.target;
+        e.target.classList.add("dragging");
+    });
+
+    nameList.addEventListener("dragend", (e) => {
+        e.target.classList.remove("dragging");
+        draggedItem = null;
+    });
+
+    nameList.addEventListener("dragover", (e) => {
+        e.preventDefault();
+        const afterElement = getDragAfterElement(nameList, e.clientX);
+        const draggingElement = document.querySelector(".dragging");
+
+        if (afterElement == null) {
+            nameList.appendChild(draggingElement);
+        } else {
+            nameList.insertBefore(draggingElement, afterElement);
+        }
+    });
+
+    function getDragAfterElement(container, x) {
+        const draggableElements = [...container.querySelectorAll("div:not(.dragging)")];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = x - box.left - box.width / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
     }
 </script>
 
