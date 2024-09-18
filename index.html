@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ProGamer Challenge</title>
+    <title>Imágenes en Blanco y Negro</title>
     <style>
         body {
             display: flex;
@@ -12,6 +12,8 @@
             justify-content: center;
             height: 100vh;
             font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
         }
 
         .container {
@@ -24,6 +26,7 @@
         .name-list {
             display: flex;
             gap: 10px;
+            margin-bottom: 20px;
         }
 
         .name-list div {
@@ -31,6 +34,7 @@
             position: relative;
             padding: 5px;
             cursor: grab;
+            transition: transform 0.2s ease;
         }
 
         .name-list div img {
@@ -41,7 +45,9 @@
         }
 
         .highlight {
-            border: 3px solid yellow;
+            border: 3px solid red;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
         }
 
         .color {
@@ -52,6 +58,26 @@
             font-size: 24px;
             font-weight: bold;
             margin-top: 20px;
+            color: #333;
+        }
+
+        .button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .button:active {
+            transform: scale(0.98);
         }
 
         .name-list div.dragging {
@@ -85,10 +111,11 @@
         </div>
     </div>
 
-    <button onclick="moveHighlight()">Mover Contorno</button>
-    <button onclick="shuffleImages()">Reordenar Automáticamente</button>
-    <button onclick="resetHighlight()">Reiniciar al Primer Orden</button>
+    <button class="button" onclick="moveHighlight()">Mover Contorno</button>
+    <button class="button" onclick="shuffleImages()">Reordenar Automáticamente</button>
+    <button class="button" onclick="resetHighlight()">Reiniciar al Primer Orden</button>
 
+    <div id="center-name">Fallguys</div>
 </div>
 
 <script>
